@@ -8,7 +8,7 @@
         tools:context=".MainActivity">
 
 
-    <TextView
+   <TextView
             android:id="@+id/txtview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
     />
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:id="@+id/linearLayout1"
+                  android:id="@+id/linearLayoutSendingText"
                   android:layout_width="fill_parent"
                   android:layout_height="fill_parent"
                   android:orientation="vertical" >
@@ -40,27 +40,61 @@
                 android:phoneNumber="true" >
         </EditText>
 
-        <!--<TextView
-                android:id="@+id/textViewSMS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Enter SMS Message : "
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <EditText
-                android:id="@+id/editTextSMS"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:lines="5"
-                android:gravity="top" />-->
-
         <Button
                 android:id="@+id/buttonSend"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Send" />
+                android:text="Send OTP" />
 
     </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/layout_otp"
+            android:layout_width="match_parent"
+            android:layout_height="90sp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+        <EditText
+                android:id="@+id/editTextone"
+                android:layout_width="40sp"
+                android:layout_height="42sp"
+                android:maxLength="1"
+                android:inputType="number"
+                android:nextFocusRight="@+id/editText_two">
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+                android:id="@+id/editTexttwo"
+                android:layout_width="40sp"
+                android:layout_height="42sp"
+                android:inputType="number"
+                android:maxLength="1"/>
+        <requestFocus />
+
+        <EditText
+                android:id="@+id/editTextthree"
+                android:layout_width="40sp"
+                android:layout_height="42sp"
+                android:inputType="number"
+                android:maxLength="1"/>
+
+        <EditText
+                android:id="@+id/editTextfour"
+                android:layout_width="40sp"
+                android:layout_height="42sp"
+                android:inputType="number"
+                android:maxLength="1"/>
+        <Button
+                android:id="@+id/buttonVerify"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Verify" />
+
+    </LinearLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>

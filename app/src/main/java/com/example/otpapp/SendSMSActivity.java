@@ -9,12 +9,10 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
@@ -27,8 +25,9 @@ import java.util.Random;
 public class SendSMSActivity extends Activity {
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
     Button buttonSend;
+    Button buttonVerify;
     EditText textPhoneNo;
-    EditText textSMS;
+    int randomNumber = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,8 @@ public class SendSMSActivity extends Activity {
         }
         buttonSend = (Button) findViewById(R.id.buttonSend);
         textPhoneNo = (EditText) findViewById(R.id.editTextPhoneNo);
+        buttonVerify = (Button) findViewById(R.id.buttonVerify);
+
 
         buttonSend.setOnClickListener(new OnClickListener() {
 
@@ -47,13 +48,19 @@ public class SendSMSActivity extends Activity {
 
                 String phoneNo = textPhoneNo.getText().toString();
                 Random rand = new Random();
-                String sms = "Message: Do not share this code anyone for security reasons. Your Unique OTP is "+rand.nextInt(10000);
+                randomNumber = rand.nextInt(10000);
+                String sms = "Welcome to OUR app.Do not share this code anyone for security reasons. Your Unique OTP is :"+randomNumber;
 
                 try {
                     SmsManager smsManager = SmsManager.getDefault();
                     smsManager.sendTextMessage(phoneNo, null, sms, null, null);
                     Toast.makeText(getApplicationContext(), "SMS Sent!",
                             Toast.LENGTH_LONG).show();
+                    LinearLayout linearLayoutSendingText=(LinearLayout)findViewById(R.id.linearLayoutSendingText);
+                    linearLayoutSendingText.setVisibility(LinearLayout.GONE);
+
+                    LinearLayout linearLayoutOtp=(LinearLayout)findViewById(R.id.layout_otp);
+                    linearLayoutOtp.setVisibility(LinearLayout.VISIBLE);
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(),
                             "SMS faild, please try again later!",
@@ -63,6 +70,35 @@ public class SendSMSActivity extends Activity {
 
             }
         });
+
+        buttonVerify.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String otpFromEditField="";
+                EditText et1 = (EditText) findViewById(R.id.editTextone);
+                otpFromEditField+=et1.getText();
+
+                EditText et2 = (EditText) findViewById(R.id.editTexttwo);
+                otpFromEditField+=et2.getText();
+
+                EditText et3 = (EditText) findViewById(R.id.editTextthree);
+                otpFromEditField+=et3.getText();
+
+                EditText et4 = (EditText) findViewById(R.id.editTextfour);
+                otpFromEditField+=et4.getText();
+
+                TextView tv = (TextView) findViewById(R.id.txtview);
+                LinearLayout linearLayoutOtp=(LinearLayout)findViewById(R.id.layout_otp);
+                linearLayoutOtp.setVisibility(LinearLayout.GONE);
+                if(Integer.parseInt(otpFromEditField) == randomNumber) {
+                    tv.setText("Authencation Succesfully");
+                }
+                else {
+                    tv.setText("Authencation Failed");
+                }
+            }
+        });
     }
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -70,8 +106,21 @@ public class SendSMSActivity extends Activity {
             if (intent.getAction().equalsIgnoreCase("otp")) {
                 final String message = intent.getStringExtra("message");
 
-                TextView tv = (TextView) findViewById(R.id.txtview);
-                tv.setText(message);
+                Log.d("RECEIVER_MESSAGE",message);
+                String otpFromMessage = message.split(":")[1];
+                Log.d("RECEIVER_MESSAGE_OTP",otpFromMessage);
+                EditText et1 = (EditText) findViewById(R.id.editTextone);
+                et1.setText(""+otpFromMessage.charAt(0));
+
+                EditText et2 = (EditText) findViewById(R.id.editTexttwo);
+                et2.setText(""+otpFromMessage.charAt(1));
+
+                EditText et3 = (EditText) findViewById(R.id.editTextthree);
+                et3.setText(""+otpFromMessage.charAt(2));
+
+                EditText et4 = (EditText) findViewById(R.id.editTextfour);
+                et4.setText(""+otpFromMessage.charAt(3));
+
             }
         }
     };
