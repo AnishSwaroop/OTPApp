@@ -92,7 +92,7 @@ public class SendSMSActivity extends Activity {
                 LinearLayout linearLayoutOtp=(LinearLayout)findViewById(R.id.layout_otp);
                 linearLayoutOtp.setVisibility(LinearLayout.GONE);
                 if(Integer.parseInt(otpFromEditField) == randomNumber) {
-                    tv.setText("Authentication Succesful!!!");
+                    tv.setText("Authentication Successful!!!");
                 }
                 else {
                     tv.setText("Authentication Failed");
